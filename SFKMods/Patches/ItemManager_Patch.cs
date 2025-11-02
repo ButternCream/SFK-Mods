@@ -3,22 +3,34 @@ using HarmonyLib;
 using SFKMod.Mods;
 using SuperFantasyKingdom;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ModItems
 {
     [HarmonyPatch(typeof(ItemManager), nameof(ItemManager.Apply))]
     static class ItemManager_Apply_ModItems
     {
+        // Per-statsRoot cache: automatically releases when statsRoot is GC'd
+        static readonly ConditionalWeakTable<object, Dictionary<string, Stat>> s_statIndexCache
+            = new ConditionalWeakTable<object, Dictionary<string, Stat>>();
+
         [HarmonyPrefix]
         static bool Prefix(string itemIdentifier, Entity entity)
         {
-
             Plugin.Logger.LogInfo($"[ModItems] Manager.Apply {itemIdentifier} -> {(entity as UnityEngine.Object)?.name}");
 
             // Not ours? Let vanilla run.
-            if (string.IsNullOrEmpty(itemIdentifier) || !itemIdentifier.StartsWith("mod:")) return true;
+            if (string.IsNullOrEmpty(itemIdentifier) || !itemIdentifier.StartsWith("mod:", StringComparison.OrdinalIgnoreCase))
+                return true;
 
-            if (entity == null) { Plugin.Logger.LogWarning("[ModItems] Apply: entity null"); return false; }
+            if (entity == null)
+            {
+                Plugin.Logger.LogWarning("[ModItems] Apply: entity null");
+                return false;
+            }
 
             if (!ModItemRegistry.TryGet(itemIdentifier, out var def) || def == null)
             {
@@ -27,12 +39,22 @@ namespace ModItems
             }
 
             var statsRoot = entity.GetStats();
-            if (statsRoot == null) { Plugin.Logger.LogWarning("[ModItems] Apply: stats root null"); return false; }
+            if (statsRoot == null)
+            {
+                Plugin.Logger.LogWarning("[ModItems] Apply: stats root null");
+                return false;
+            }
+
+            // Build or get cached index for this statsRoot
+            var index = GetOrBuildStatIndex(statsRoot);
 
             foreach (var m in def.statMods)
             {
-                var stat = FindStat(statsRoot, m.statPath);
-                if (stat == null) { Plugin.Logger.LogWarning($"[ModItems] Apply: stat '{m.statPath}' not found"); continue; }
+                if (!index.TryGetValue(m.statPath, out var stat) || stat == null)
+                {
+                    Plugin.Logger.LogWarning($"[ModItems] Apply: stat '{m.statPath}' not found");
+                    continue;
+                }
 
                 // IMPORTANT: use origin = -1 to survive the game's RemoveAllModifiers(force:false)
                 var data = new StatModifierData
@@ -59,51 +81,73 @@ namespace ModItems
             _ => StatModifierType.Flat
         };
 
-        // Reuse the same recursive stat finder you already had; included here for completeness:
-        static Stat FindStat(object statsRoot, string statPath)
+        // ---------- Indexing (built once per statsRoot) ----------
+
+        static Dictionary<string, Stat> GetOrBuildStatIndex(object statsRoot)
         {
-            if (statsRoot == null || string.IsNullOrEmpty(statPath)) return null;
-            var t = statsRoot.GetType();
-            const System.Reflection.BindingFlags BF = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
-
-            foreach (var f in t.GetFields(BF))
-                if (f.FieldType == typeof(Stat) && f.Name == statPath)
-                    return f.GetValue(statsRoot) as Stat;
-
-            foreach (var p in t.GetProperties(BF))
-                if (p.CanRead && p.GetIndexParameters().Length == 0 && p.PropertyType == typeof(Stat) && p.Name == statPath)
-                    return p.GetValue(statsRoot, null) as Stat;
-
-            // recursive by short name
-            return Scan(statsRoot, statPath);
-
-            static Stat Scan(object obj, string name)
+            if (!s_statIndexCache.TryGetValue(statsRoot, out var map))
             {
-                if (obj == null) return null;
-                var tt = obj.GetType();
-                const System.Reflection.BindingFlags BF2 = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
+                map = BuildStatIndex(statsRoot);
+                s_statIndexCache.Add(statsRoot, map);
+            }
+            return map;
+        }
 
-                foreach (var f in tt.GetFields(BF2))
+        static Dictionary<string, Stat> BuildStatIndex(object root)
+        {
+            var map = new Dictionary<string, Stat>(StringComparer.Ordinal);
+            Visit(root, map);
+            return map;
+
+            static void Visit(object obj, Dictionary<string, Stat> map)
+            {
+                if (obj == null) return;
+
+                // Public instance members only — publicizer exposes what used to be private
+                const BindingFlags BF = BindingFlags.Instance | BindingFlags.Public;
+                var t = obj.GetType();
+
+                // Fields first (fast, predictable)
+                foreach (var f in t.GetFields(BF))
                 {
                     var v = f.GetValue(obj);
-                    if (v is Stat s && f.Name == name) return s;
-                    if (IsPlain(v)) { var r = Scan(v, name); if (r != null) return r; }
+                    if (v is Stat s)
+                    {
+                        map[f.Name] = s; // last write wins if duplicate names appear
+                    }
+                    else if (IsPlain(v))
+                    {
+                        Visit(v, map);
+                    }
                 }
-                foreach (var p in tt.GetProperties(BF2))
+
+                // Optional: public, non-indexed properties (skip if you want max safety/perf)
+                foreach (var p in t.GetProperties(BF))
                 {
                     if (!p.CanRead || p.GetIndexParameters().Length != 0) continue;
-                    object v; try { v = p.GetValue(obj, null); } catch { continue; }
-                    if (v is Stat s && p.Name == name) return s;
-                    if (IsPlain(v)) { var r = Scan(v, name); if (r != null) return r; }
+
+                    object v;
+                    try { v = p.GetValue(obj, null); }
+                    catch { continue; }
+
+                    if (v is Stat s)
+                    {
+                        map[p.Name] = s;
+                    }
+                    else if (IsPlain(v))
+                    {
+                        Visit(v, map);
+                    }
                 }
-                return null;
             }
 
             static bool IsPlain(object v)
             {
                 if (v == null) return false;
                 var vt = v.GetType();
-                return !vt.IsPrimitive && vt != typeof(string) && !typeof(UnityEngine.Object).IsAssignableFrom(vt);
+                return !vt.IsPrimitive
+                       && vt != typeof(string)
+                       && !typeof(UnityEngine.Object).IsAssignableFrom(vt);
             }
         }
     }

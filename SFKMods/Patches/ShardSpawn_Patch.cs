@@ -60,12 +60,8 @@ namespace SFKMod.Patches
         {
             ShardCtx.Current = __instance;
 
-            var t = __instance.GetType();
-            var fType = AccessTools.Field(t, "m_Type");
-            var fAmount = AccessTools.Field(t, "m_Amount");
-
-            var type = (ResourceType)(fType?.GetValue(__instance) ?? default(ResourceType));
-            var amt = (int)(fAmount?.GetValue(__instance) ?? 0);
+            var type = __instance.m_Type;
+            var amt = __instance.m_Amount;
 
             var meta = __instance.GetComponent<ModShardMeta>();
             string who = meta ? $"{meta.SourceType}:{meta.SourceId}" : "<unattributed>";

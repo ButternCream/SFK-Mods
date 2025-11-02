@@ -44,8 +44,6 @@ namespace ModItems
     [HarmonyPatch(typeof(AddressablesManager), nameof(AddressablesManager.GetItem))]
     static class Addressables_GetItem_Mod
     {
-        static readonly System.Reflection.FieldInfo _cooldownFI =
-            AccessTools.Field(typeof(AttackAbilityBase), "cooldown"); // base of Item
 
         [HarmonyPrefix]
         static bool Prefix(string prefabName, ref Item __result)
@@ -65,7 +63,10 @@ namespace ModItems
                         beh.Def = def;
 
                         // IMPORTANT: set cooldown BEFORE Item.Init() is called by ItemManager.LoadItem(...)
-                        if (_cooldownFI != null) _cooldownFI.SetValue(tmpl, def.cooldown);
+                        if (tmpl is AttackAbilityBase aab)
+                        {
+                            aab.cooldown = def.cooldown;
+                        }
                     }
 
                     __result = tmpl; // Let ItemManager.Instantiate<Item>(tmpl) clone a ready-to-go item
