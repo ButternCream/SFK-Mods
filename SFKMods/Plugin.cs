@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using ModItems;
 using System.Drawing;
+using SuperFantasyKingdom;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -153,7 +154,7 @@ namespace SFKMod.Mods
             }
             if (GUILayout.Button("Test Resource Spawn"))
             {
-                ShardAPI.SpawnFaith(ScreenCenter(), 1, "CustomFaith");
+                ShardAPI.SpawnResource(ScreenCenter(), 1, ResourceType.Faith);
             }
             if (GUILayout.Button("Test Item Spawn"))
             {
