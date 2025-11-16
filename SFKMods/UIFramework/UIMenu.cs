@@ -33,5 +33,11 @@ namespace UIFramework
         {
             return UIVerticalLayout.AttachTo(this, spacing, padding);
         }
+
+        public UIHorizontalLayout AddHorizontalLayout(float spacing = 8f, float padding = 10f)
+        {
+            return UIHorizontalLayout.AttachTo(this, spacing, padding);
+        }
+
     }
 }

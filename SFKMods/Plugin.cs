@@ -159,6 +159,27 @@ namespace SFKMod.Mods
                 // Optional: auto-size panel height
                 layout.FitMenuHeight();
             }
+            if (GUILayout.Button("Layout Test"))
+            {
+                var canvas = GameObject.Find("Canvas").transform;
+
+                var menu = UIMenu.Create(
+                    new Vector2(400, 100),
+                    new Vector2(0, 0),
+                    canvas,
+                    new Color(1, 1, 1, 0.4f)
+                );
+
+                var row = menu.AddHorizontalLayout(spacing: 12f, padding: 15f);
+
+                row.AddButton("A", new Vector2(75, 40));
+                row.AddButton("B", new Vector2(75, 40));
+                row.AddButton("C", new Vector2(75, 40));
+
+                row.FitMenuWidth();
+                row.FitMenuHeight();
+            }
+
             if (GUILayout.Button("Test Resource Spawn"))
             {
                 ShardAPI.SpawnResource(ScreenCenter(), 1, ResourceType.Faith);
