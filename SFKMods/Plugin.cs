@@ -3,9 +3,9 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using ModItems;
-using System.Drawing;
 using SuperFantasyKingdom;
 using System.Linq;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +16,6 @@ namespace SFKMod.Mods
     {
 
         public bool m_AddBg = false;
-
         private bool m_Visible = false;
         public const string PLUGIN_GUID = "com.sfk.uilib";
         public const string PLUGIN_NAME = "SFKUI Lib";
@@ -62,6 +61,7 @@ namespace SFKMod.Mods
             Logger.LogInfo($"scene={scene.name} loadMode={loadMode}");
             if (scene.name == "TitleScene")
             {
+                AssetManager.Instance.LoadAll();
                 Sprite defenseIcon = UnityEngine.Resources
                     .FindObjectsOfTypeAll<Sprite>()
                     .FirstOrDefault(s => s.name == "IconDefense");
@@ -122,35 +122,42 @@ namespace SFKMod.Mods
             GUILayout.BeginVertical();
 
             GUILayout.Label("IMGUI Panel");
-            if (GUILayout.Button("Rect"))
-            {
-                UIObject.TestCreateRandomRect("randRect", UnityEngine.Color.red, GameObject.Find("Canvas").transform);
-            }
-            if (GUILayout.Button("Text"))
-            {
-                UIObject.TestCreateRandomTextRect("randText", "Hello World", GameObject.Find("Canvas").transform);
-            }
-            if (GUILayout.Button("Button"))
-            {
-                UIObject.TestCreateMenuButton(
-                    "menuButton",
-                    "Toggle GUI",
-                    () => { m_Visible = !m_Visible; },
-                    GameObject.Find("Canvas/Left/Menu").transform
-                )
-                .RelativeTo(
-                    GameObject.Find("Canvas/Left/Menu/Profiles"), 
-                    new Vector2(0, -50f)
-                );
-            }
             if (GUILayout.Button("Layout"))
             {
-                var panel = UIObject.CreateVerticalLayout(new Vector2(250, 200), new Vector2(600, -500), new UnityEngine.Color(1, 1, 1, 0.5f));
-                // Test adding 3 things
+                // Find game's canvas (Screen Space Overlay)
+                var canvas = GameObject.Find("Canvas").transform;
+
+                // Create panel
+                var panel = UIMenu.Create(
+                    size: new Vector2(250, 200),
+                    pos: new Vector2(-300, 0),
+                    parent: canvas,
+                    bgColor: new Color(1, 1, 1, 0.5f)
+                );
+
+                // Add vertical layout
+                var layout = panel.AddVerticalLayout(spacing: 8f, padding: 10f);
+
+                // Add buttons
                 for (int i = 0; i < 3; i++)
                 {
-                    var btn = UIObject.TestCreateMenuButton($"test_{i}", $"button {i}", null, panel.transform);
+                    int index = i;
+                    var btn = layout.AddButton(
+                        text: $"button {index}",
+                        size: new Vector2(250, 42),
+                        bgColor: new Color(0, 0, 0, 0.5f),
+                        rounded: true,
+                        enableShake: true
+                    );
+                    btn.onClick(() =>
+                    {
+                        Logger.LogInfo($"Clicke button {index}");
+                    });
+
                 }
+
+                // Optional: auto-size panel height
+                layout.FitMenuHeight();
             }
             if (GUILayout.Button("Test Resource Spawn"))
             {

@@ -15,6 +15,7 @@ namespace SFKMod
         public static TMP_FontAsset[] Fonts;
         public static Sprite[] Sprites;
         public static AssetManager _instance;
+        public static bool loaded;
 
         private AssetManager() 
         {
@@ -25,6 +26,11 @@ namespace SFKMod
                 if (_instance == null)
                 {
                     _instance = new AssetManager();
+
+                }
+                if (!loaded)
+                {
+                    _instance.LoadAll();
                 }
                 return _instance;
             } 
@@ -39,6 +45,7 @@ namespace SFKMod
                 Plugin.Logger.LogInfo($"Found {Fonts.Length} fonts.");
                 Plugin.Logger.LogInfo($"Found {Sprites.Length} sprites.");
             }
+            loaded = true;
         }
 
         public Sprite GetSpriteByName(string name, bool exact = true) 
