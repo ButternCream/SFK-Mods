@@ -7,7 +7,7 @@ namespace UIFramework
     {
         public Image Background;
 
-        public static UIMenu Create(Vector2 size, Vector2 pos, Transform parent = null, Color? bgColor = null)
+        public static UIMenu Create(Vector2 size, Vector2 pos, Transform parent, Color? bgColor = null)
         {
             var menu = new UIMenu();
 

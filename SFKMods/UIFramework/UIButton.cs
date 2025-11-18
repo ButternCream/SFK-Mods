@@ -11,6 +11,8 @@ namespace UIFramework
         public Button Button;
         public SuperFantasyKingdom.UI.UIClickable Clickable;
 
+        public static Vector2 STANDARD_SIZE = new Vector2(250, 42);
+
         public UIButton onClick(UnityEngine.Events.UnityAction action)
         {
             Button?.onClick.AddListener(action);
