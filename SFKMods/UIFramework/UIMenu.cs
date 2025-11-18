@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UIFramework
+namespace UI
 {
     public class UIMenu : UIObject
     {

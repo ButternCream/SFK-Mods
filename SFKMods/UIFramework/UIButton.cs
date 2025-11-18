@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace UIFramework
+namespace UI
 {
     public class UIButton : UIObject
     {

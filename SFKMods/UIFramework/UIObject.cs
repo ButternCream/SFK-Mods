@@ -1,12 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UIFramework
+namespace UI
 {
     public class UIObject
     {
         public GameObject GameObject;
         public RectTransform Rect;
+        public bool Active
+        {
+            set
+            {
+                GameObject.SetActive(value);
+            }
+            get 
+            {  
+                return GameObject.activeSelf; 
+            }
+        }
 
         public void SetParent(Transform parent)
         {

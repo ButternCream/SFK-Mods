@@ -5,11 +5,11 @@ using HarmonyLib;
 using ModItems;
 using SuperFantasyKingdom;
 using System.Linq;
-using UIFramework;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SFKMod.Mods
+namespace SFKMod
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
@@ -62,7 +62,7 @@ namespace SFKMod.Mods
             if (scene.name == "TitleScene")
             {
                 AssetManager.Instance.LoadAll();
-                Sprite defenseIcon = UnityEngine.Resources
+                Sprite defenseIcon = Resources
                     .FindObjectsOfTypeAll<Sprite>()
                     .FirstOrDefault(s => s.name == "IconDefense");
                 var bigShield = new ModItemDef

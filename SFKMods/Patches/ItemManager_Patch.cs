@@ -1,12 +1,12 @@
 ﻿// File: ModItem_ApplyAtManager.cs
 using HarmonyLib;
-using SFKMod.Mods;
 using SuperFantasyKingdom;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using SFKMod;
 
 namespace ModItems
 {

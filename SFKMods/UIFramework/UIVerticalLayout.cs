@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace UIFramework
+namespace UI
 {
     public class UIVerticalLayout
     {

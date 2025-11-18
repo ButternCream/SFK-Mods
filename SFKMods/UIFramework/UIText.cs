@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace UIFramework
+namespace UI
 {
     public class UIText : UIObject
     {

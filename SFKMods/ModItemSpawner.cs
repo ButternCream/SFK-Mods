@@ -1,4 +1,4 @@
-﻿using SFKMod.Mods;
+﻿using SFKMod;
 using SuperFantasyKingdom;
 using UnityEngine;
 

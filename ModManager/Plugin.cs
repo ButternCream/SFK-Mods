@@ -7,7 +7,7 @@ using SuperFantasyKingdom.Buildings;
 using SuperFantasyKingdom.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using UIFramework;
+using UI;
 using UnityEngine.SceneManagement;
 
 namespace ModManager
@@ -24,7 +24,6 @@ namespace ModManager
 
         Dictionary<string, PluginInfo> loadedPlugins = Chainloader.PluginInfos;
         private UIMenu modsMenu;
-        private bool modsVisible = false;
 
         private void Awake()
         {
@@ -64,10 +63,8 @@ namespace ModManager
                 {
                     row.AddButton(plugin.Value.Metadata.Name, new Vector2(325, 50), enableShake: true);
                 }
-                modsMenu.GameObject.SetActive(false);
             }
-            modsVisible = !modsVisible;
-            modsMenu.GameObject.SetActive(modsVisible);
+            modsMenu.Active = !modsMenu.Active;
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)

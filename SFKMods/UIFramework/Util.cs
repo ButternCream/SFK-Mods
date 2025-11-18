@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UIFramework
+namespace UI
 {
     public static class Util
     {

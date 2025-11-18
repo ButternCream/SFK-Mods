@@ -1,5 +1,5 @@
 ﻿// Replace ModItemTemplateCache with this smarter selector
-using SFKMod.Mods;
+using SFKMod;
 using SuperFantasyKingdom;
 using System.Collections.Generic;
 using System.Linq;
