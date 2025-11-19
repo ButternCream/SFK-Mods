@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace SFKUILib
 {
     public static class Util
     {
@@ -23,7 +23,7 @@ namespace UI
                 return cachedFont;
 
             // 2. As fallback, find any TMP font in scene
-            var anyText = GameObject.FindObjectOfType<TextMeshProUGUI>();
+            var anyText = Object.FindObjectOfType<TextMeshProUGUI>();
             if (anyText != null)
             {
                 cachedFont = anyText.font;

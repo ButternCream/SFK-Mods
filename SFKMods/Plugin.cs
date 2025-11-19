@@ -5,7 +5,7 @@ using HarmonyLib;
 using ModItems;
 using SuperFantasyKingdom;
 using System.Linq;
-using UI;
+using SFKUILib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

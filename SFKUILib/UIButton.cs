@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace UI
+namespace SFKUILib
 {
     public class UIButton : UIObject
     {
