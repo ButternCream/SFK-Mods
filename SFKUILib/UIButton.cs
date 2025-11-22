@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace SFKUILib
 {
@@ -64,22 +64,19 @@ namespace SFKUILib
                 btn.Clickable.buttonThatMustBeEnabledAndInteractable = btn.Button;
             }
 
-            // Create TMP label
-            var labelGO = new GameObject("Text");
-            labelGO.transform.SetParent(btn.Rect, false);
+            // --- Create label using UIText instead of raw TMP ---
+            var textObj = UIText.Create(
+                text,
+                btn.Rect,        // parent is button rect
+                Vector2.zero,    // layout will override, stretch fixes it
+                20,              // font size
+                Color.white
+            );
 
-            btn.Label = labelGO.AddComponent<TextMeshProUGUI>();
-            btn.Label.text = text;
-            btn.Label.font = Util.GetFont();
-            btn.Label.alignment = TextAlignmentOptions.Center;
-            btn.Label.color = Color.white;
+            btn.Label = textObj.Label;
 
-            btn.Rect.anchorMin = new Vector2(0.5f, 1f);
-            btn.Rect.anchorMax = new Vector2(0.5f, 1f);
-            btn.Rect.pivot = new Vector2(0.5f, 1f);
-
-            // Stretch to fill parent
-            var txtRect = btn.Label.rectTransform;
+            // Stretch to fill button
+            var txtRect = textObj.Rect;
             txtRect.anchorMin = Vector2.zero;
             txtRect.anchorMax = Vector2.one;
             txtRect.offsetMin = Vector2.zero;

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 namespace SFKUILib
 {
@@ -7,7 +7,7 @@ namespace SFKUILib
     {
         public TextMeshProUGUI Label;
 
-        public static UIText Create(string text, Transform parent, Vector2 pos, int size = 24, Color? color = null)
+        public static UIText Create(string text, Transform parent, Vector2 pos, int size = 24, Color? color = null, bool wrap = false)
         {
             var uiText = new UIText();
 
@@ -24,6 +24,8 @@ namespace SFKUILib
             uiText.Label.color = color ?? Color.white;
 
             uiText.Label.alignment = TextAlignmentOptions.Center;
+            uiText.Label.enableWordWrapping = wrap;
+            uiText.Label.overflowMode = wrap ? uiText.Label.overflowMode : TextOverflowModes.Overflow;
 
             return uiText;
         }

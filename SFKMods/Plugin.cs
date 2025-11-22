@@ -5,7 +5,6 @@ using HarmonyLib;
 using ModItems;
 using SuperFantasyKingdom;
 using System.Linq;
-using SFKUILib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -122,64 +121,6 @@ namespace SFKMod
             GUILayout.BeginVertical();
 
             GUILayout.Label("IMGUI Panel");
-            if (GUILayout.Button("Layout"))
-            {
-                // Find game's canvas (Screen Space Overlay)
-                var canvas = GameObject.Find("Canvas").transform;
-
-                // Create panel
-                var panel = UIMenu.Create(
-                    size: new Vector2(250, 200),
-                    pos: new Vector2(-300, 0),
-                    parent: canvas,
-                    bgColor: new Color(1, 1, 1, 0.5f)
-                );
-
-                // Add vertical layout
-                var layout = panel.AddVerticalLayout(spacing: 8f, padding: 10f);
-
-                // Add buttons
-                for (int i = 0; i < 3; i++)
-                {
-                    int index = i;
-                    var btn = layout.AddButton(
-                        text: $"button {index}",
-                        size: new Vector2(250, 42),
-                        bgColor: new Color(0, 0, 0, 0.5f),
-                        rounded: true,
-                        enableShake: true
-                    );
-                    btn.onClick(() =>
-                    {
-                        Logger.LogInfo($"Clicke button {index}");
-                    });
-
-                }
-
-                // Optional: auto-size panel height
-                layout.FitMenuHeight();
-            }
-            if (GUILayout.Button("Layout Test"))
-            {
-                var canvas = GameObject.Find("Canvas").transform;
-
-                var menu = UIMenu.Create(
-                    new Vector2(400, 100),
-                    new Vector2(0, 0),
-                    canvas,
-                    new Color(1, 1, 1, 0.4f)
-                );
-
-                var row = menu.AddHorizontalLayout(spacing: 12f, padding: 15f);
-
-                row.AddButton("A", new Vector2(75, 40));
-                row.AddButton("B", new Vector2(75, 40));
-                row.AddButton("C", new Vector2(75, 40));
-
-                row.FitMenuWidth();
-                row.FitMenuHeight();
-            }
-
             if (GUILayout.Button("Test Resource Spawn"))
             {
                 ShardAPI.SpawnResource(ScreenCenter(), 1, ResourceType.Faith);

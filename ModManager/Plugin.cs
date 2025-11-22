@@ -34,15 +34,36 @@ namespace ModManager
         }
 
 
-        public static void CreateModsListOverlay()
+        public static void CreateButtonModsListOverlay()
         {
-            var go = GameObject.Find("Canvas");
-            Logger.LogInfo($"{go.name}");
-            var transformGo = go.transform;
-            int spacing = -35;
+            var canvasGo = GameObject.Find("Canvas");
+            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-700, 100));
             for (int i = 0; i < loadedPlugins.Count; i++)
             {
-                var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, transformGo, new Vector2(-700, 200 + (i + 1) * spacing), 18);
+                var btn = UIButton.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, UIButton.STANDARD_SIZE, Vector2.zero, enableShake: true);
+                vLayout.Add(btn);
+            }
+        }
+
+        public static void CreateSmallTextModsListOverlay()
+        {
+            var canvasGo = GameObject.Find("Canvas");
+            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-200, 100));
+            for (int i = 0; i < loadedPlugins.Count; i++)
+            {
+                var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 16);
+                vLayout.Add(text);
+            }
+        }
+
+        public static void CreateBigTextModsListOverlay()
+        {
+            var canvasGo = GameObject.Find("Canvas");
+            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-400, 100));
+            for (int i = 0; i < loadedPlugins.Count; i++)
+            {
+                var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 32);
+                vLayout.Add(text);
             }
         }
 
@@ -50,10 +71,12 @@ namespace ModManager
         {
             if (!triggered && TitleScreenManager.Instance.menu.activeSelf)
             {
-                CreateModsListOverlay();
+                CreateButtonModsListOverlay();
+                CreateSmallTextModsListOverlay();
+                CreateBigTextModsListOverlay();
                 triggered = true;
             }
-           
+
         }
     }
 }

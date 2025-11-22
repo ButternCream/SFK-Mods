@@ -3,26 +3,23 @@ using UnityEngine.UI;
 
 namespace SFKUILib
 {
-    public class UIObject
+    public class UIObject : IUIContainer
     {
         public GameObject GameObject;
-        public RectTransform Rect;
+        public RectTransform Rect { get; set; }
+
         public bool Active
         {
-            set
-            {
-                GameObject.SetActive(value);
-            }
-            get 
-            {  
-                return GameObject.activeSelf; 
-            }
+            set => GameObject.SetActive(value);
+            get => GameObject.activeSelf;
         }
 
         public void SetParent(Transform parent)
         {
             if (parent != null)
-                Rect.SetParent(parent, false);
+            {
+                Rect.SetParent(parent);
+            }
         }
 
         public void SetSize(Vector2 size)
