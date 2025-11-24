@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SFKUILib
 {
@@ -24,7 +23,7 @@ namespace SFKUILib
             currentY = -padding;
         }
 
-        public static UIVerticalLayout Create(Transform parentCanvas, Vector2 anchoredPos, float childSpacing = 5f, float childPadding = 5f)
+        public static UIVerticalLayout Create(Transform parentCanvas, Vector2 anchoredPos, float childSpacing = 2f, float childPadding = 4f)
         {
             var root = new UIObject();
             root.GameObject = new GameObject("VerticalLayout");
@@ -53,42 +52,38 @@ namespace SFKUILib
 
             RectTransform rt = obj.Rect;
 
+            // ✅ Force all children into top-left coordinate space of the container
+            rt.anchorMin = new Vector2(0f, 1f);
+            rt.anchorMax = new Vector2(0f, 1f);
+            rt.pivot = new Vector2(0f, 1f);
+
             float height = 0f;
 
-            // 1. If object has TMP text, use preferredHeight
             var tmp = obj.GameObject.GetComponent<TextMeshProUGUI>();
             if (tmp != null)
             {
                 tmp.ForceMeshUpdate();
                 height = tmp.preferredHeight;
             }
-
-            // 2. If object has a LayoutElement, use its min or preferred height
             else
             {
-                var layoutElement = obj.GameObject.GetComponent<LayoutElement>();
+                var layoutElement = obj.GameObject.GetComponent<UnityEngine.UI.LayoutElement>();
                 if (layoutElement != null)
                 {
-                    if (layoutElement.preferredHeight > 0)
-                        height = layoutElement.preferredHeight;
-                    else if (layoutElement.minHeight > 0)
-                        height = layoutElement.minHeight;
+                    if (layoutElement.preferredHeight > 0) height = layoutElement.preferredHeight;
+                    else if (layoutElement.minHeight > 0) height = layoutElement.minHeight;
                 }
             }
 
-            // 3. Fallback to RectTransform sizeDelta
             if (height <= 0)
                 height = rt.sizeDelta.y;
 
-            // 4. Compute spacing dynamically (tweak multiplier)
-            float dynamicSpacing = height * 0.15f; // 15% of height by default
+            float dynamicSpacing = spacing + height * 0.15f;
 
-            // 5. Position the element
-            obj.SetPosition(new Vector2(0, currentY));
+            // ✅ X padding from left, Y cursor from top
+            obj.SetPosition(new Vector2(padding, currentY));
 
-            // 6. Move the layout cursor
             currentY -= height + dynamicSpacing;
-
             children.Add(obj);
         }
     }

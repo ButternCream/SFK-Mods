@@ -70,7 +70,7 @@ namespace SFKUILib
                 btn.Rect,        // parent is button rect
                 Vector2.zero,    // layout will override, stretch fixes it
                 20,              // font size
-                Color.white
+                color: Color.white
             );
 
             btn.Label = textObj.Label;

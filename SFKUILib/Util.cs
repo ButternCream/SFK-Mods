@@ -52,5 +52,45 @@ namespace SFKUILib
 
             return cachedRounded;
         }
+
+        private static Sprite _closeSpriteCached;
+        private static GameObject _closePrefabCached;
+
+        public static Sprite GetCloseSprite()
+        {
+            if (_closeSpriteCached != null) return _closeSpriteCached;
+
+            // Find any active Close in the scene (adjust path/name if needed)
+            var closeGO = GameObject.FindObjectsOfType<GameObject>(true)
+                .FirstOrDefault(g =>
+                    g.name == "Close" &&
+                    g.GetComponent<Image>() != null);
+
+            if (closeGO != null)
+            {
+                _closeSpriteCached = closeGO.GetComponent<Image>().sprite;
+                return _closeSpriteCached;
+            }
+
+            return null;
+        }
+
+        public static GameObject GetClosePrefab()
+        {
+            if (_closePrefabCached != null) return _closePrefabCached;
+
+            var closeGO = GameObject.FindObjectsOfType<GameObject>(true)
+                .FirstOrDefault(g =>
+                    g.name == "Close" &&
+                    g.GetComponent<Button>() != null);
+
+            if (closeGO != null)
+            {
+                _closePrefabCached = closeGO;
+                return _closePrefabCached;
+            }
+
+            return null;
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace SFKUILib
         private readonly List<UIObject> children = new();
 
         private float currentX;
-        private float tallestHeight = 0f;
 
         private UIHorizontalLayout(IUIContainer container, float spacing, float padding)
         {

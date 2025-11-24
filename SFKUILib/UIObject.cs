@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 namespace SFKUILib
 {
@@ -30,6 +29,16 @@ namespace SFKUILib
         public void SetPosition(Vector2 anchoredPos)
         {
             Rect.anchoredPosition = anchoredPos;
+        }
+
+        public void Hide()
+        {
+            GameObject.SetActive(false);
+        }
+
+        public void Show()
+        {
+            GameObject.SetActive(true);
         }
     }
 }

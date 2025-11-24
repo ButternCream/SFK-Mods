@@ -5,7 +5,7 @@ using HarmonyLib;
 using SFKUILib;
 using SuperFantasyKingdom.TitleScreen;
 using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace ModManager
@@ -34,36 +34,61 @@ namespace ModManager
         }
 
 
-        public static void CreateButtonModsListOverlay()
-        {
-            var canvasGo = GameObject.Find("Canvas");
-            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-700, 100));
-            for (int i = 0; i < loadedPlugins.Count; i++)
-            {
-                var btn = UIButton.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, UIButton.STANDARD_SIZE, Vector2.zero, enableShake: true);
-                vLayout.Add(btn);
-            }
-        }
+        //public static void CreateButtonModsListOverlay()
+        //{
+        //    var canvasGo = GameObject.Find("Canvas");
+        //    var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-700, 100));
+        //    for (int i = 0; i < loadedPlugins.Count; i++)
+        //    {
+        //        var btn = UIButton.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, UIButton.STANDARD_SIZE, Vector2.zero, enableShake: true);
+        //        vLayout.Add(btn);
+        //    }
+        //}
 
-        public static void CreateSmallTextModsListOverlay()
-        {
-            var canvasGo = GameObject.Find("Canvas");
-            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-200, 100));
-            for (int i = 0; i < loadedPlugins.Count; i++)
-            {
-                var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 16);
-                vLayout.Add(text);
-            }
-        }
+        //public static void CreateSmallTextModsListOverlay()
+        //{
+        //    var canvasGo = GameObject.Find("Canvas");
+        //    var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-200, 100));
+        //    for (int i = 0; i < loadedPlugins.Count; i++)
+        //    {
+        //        var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 16);
+        //        vLayout.Add(text);
+        //    }
+        //}
 
-        public static void CreateBigTextModsListOverlay()
+        //public static void CreateBigTextModsListOverlay()
+        //{
+        //    var canvasGo = GameObject.Find("Canvas");
+        //    var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-400, 100));
+        //    for (int i = 0; i < loadedPlugins.Count; i++)
+        //    {
+        //        var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 32);
+        //        vLayout.Add(text);
+        //    }
+        //}
+
+        void CreateModsOverlay()
         {
-            var canvasGo = GameObject.Find("Canvas");
-            var vLayout = UIVerticalLayout.Create(canvasGo.transform, new Vector2(-400, 100));
-            for (int i = 0; i < loadedPlugins.Count; i++)
+            var overlay = UIOverlay.Create(
+                "ModsOverlay",
+                new Vector2(-400, 100),
+                bgMode: OverlayBackgroundMode.PanelFixed,
+                bgColor: new Color(0f, 0f, 0f, 0.6f),
+                panelSize: new Vector2(300, 400)
+                )
+                .AddHeader("Loaded Plugins");
+
+            foreach (var mod in loadedPlugins)
             {
-                var text = UIText.Create(loadedPlugins.ElementAt(i).Value.Metadata.Name, vLayout.container.Rect, Vector2.zero, size: 32);
-                vLayout.Add(text);
+                //overlay.AddText(mod.Value.Metadata.Name, size: 16);
+                var t = UIText.Create(
+                    mod.Value.Metadata.Name,
+                    overlay.Menu.container.Rect,
+                    Vector2.zero,
+                    size: 16,
+                    alignment: TextAlignmentOptions.TopLeft
+                );
+                overlay.Menu.Add(t);
             }
         }
 
@@ -71,9 +96,7 @@ namespace ModManager
         {
             if (!triggered && TitleScreenManager.Instance.menu.activeSelf)
             {
-                CreateButtonModsListOverlay();
-                CreateSmallTextModsListOverlay();
-                CreateBigTextModsListOverlay();
+                CreateModsOverlay();
                 triggered = true;
             }
 
