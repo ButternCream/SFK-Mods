@@ -50,8 +50,7 @@ namespace DemolishAll.Patches
 
             msg.SetMessage(text);
             msg.SetAccept(new ResourceAmount(ResourceType.Banish, 1),
-                          new UnityAction(AccessTools.Method(__instance.GetType(), "Callback")
-                                                 .CreateDelegate(typeof(UnityAction), __instance) as UnityAction));
+                          new UnityAction(__instance.Callback));
 
             return false; // skip original Select
         }
