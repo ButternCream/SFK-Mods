@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 
 namespace SFKMod
 {
@@ -13,6 +14,17 @@ namespace SFKMod
             {
                 Plugin.Logger.LogInfo($" at {frame}");
             }
+        }
+
+        public static string GetHierarchyPath(Transform t)
+        {
+            var path = t.name;
+            while (t.parent != null)
+            {
+                t = t.parent;
+                path = t.name + "/" + path;
+            }
+            return path;
         }
     }
 }

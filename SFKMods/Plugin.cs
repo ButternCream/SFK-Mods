@@ -2,11 +2,9 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
-using ModItems;
 using SuperFantasyKingdom;
-using System.Linq;
+using SuperFantasyKingdom.Spawner;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace SFKMod
 {
@@ -16,8 +14,8 @@ namespace SFKMod
 
         public bool m_AddBg = false;
         private bool m_Visible = false;
-        public const string PLUGIN_GUID = "com.sfk.uilib";
-        public const string PLUGIN_NAME = "SFKUI Lib";
+        public const string PLUGIN_GUID = "com.sfk.testing";
+        public const string PLUGIN_NAME = "SFK Testing";
         public const string PLUGIN_VERSION = "1.0.0";
         private Rect m_WindowRect = new(100, 100, 300, 200);
         internal static new ManualLogSource Logger;
@@ -46,41 +44,12 @@ namespace SFKMod
             m_WindowRect.width = m_CfgWindowW.Value;
             m_WindowRect.height = m_CfgWindowH.Value;
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
 
             harmony.PatchAll();
-
-            Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
-
             DontDestroyOnLoad(this);
         }
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
-        {
-            Logger.LogInfo($"scene={scene.name} loadMode={loadMode}");
-            if (scene.name == "TitleScene")
-            {
-                AssetManager.Instance.LoadAll();
-                Sprite defenseIcon = Resources
-                    .FindObjectsOfTypeAll<Sprite>()
-                    .FirstOrDefault(s => s.name == "IconDefense");
-                var bigShield = new ModItemDef
-                {
-                    id = "mod:BigShield100",
-                    title = "Big Shield (+100)",
-                    description = "Increase base shield by 100.",
-                    icon = defenseIcon,
-                    cost = 10,
-                    cooldown = 9999999f, // one-time
-                    statMods =
-                    {
-                        new ModStatMod { statPath = "maxShield", valueType = ModValueType.Flat, value = 100f, origin = -1 }
-                    }
-                };
-                ModItemRegistry.Register(bigShield);
-                Logger.LogInfo("[ModItems] Registered mod:BigShield100.");
-            }
-        }
+
 
         void Update()
         {
@@ -123,15 +92,26 @@ namespace SFKMod
             GUILayout.Label("IMGUI Panel");
             if (GUILayout.Button("Test Resource Spawn"))
             {
-                ShardAPI.SpawnResource(ScreenCenter(), 1, ResourceType.Faith);
+                Instances.DroppedShardSpawner.Spawn(ScreenCenter(), 1, ResourceType.Faith);
             }
-            if (GUILayout.Button("Test Item Spawn"))
+            if (GUILayout.Button("Spawn Vagabond"))
             {
-                var cam = Camera.main;
-                var wp = cam ? cam.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, cam.nearClipPlane + 5f)) : Vector3.zero;
-                ModItemSpawner.SpawnDrag("mod:BigShield100", new Vector2(wp.x, wp.y));
+                Villain vagabondVillain;
+                AddressablesManager.Instance.GetAllVillains().TryGetValue("Vagabond", out vagabondVillain);
+                if (vagabondVillain != null)
+                {
+                    Vector3 pos = new Vector3(vagabondVillain.GetSpawnDistance(), 14f, 0f);
+                    var m = CombatManager.Instance.SpawnMonster(vagabondVillain, pos);
+                    m.Init(MonsterSpawner.Instance.GetCurrentDifficulty() + 1, true);
+                    Logger.LogInfo("Spawned Vagabond villain.");
+                    return;
+                }
             }
 
+            if (GUILayout.Button("Hero Health"))
+            {
+                Instances.UnitManager.GetHero().m_CurrentBaseHealth = 99999f;
+            }
 
             GUILayout.Space(8);
             GUILayout.Label($"Window position: {Mathf.RoundToInt(m_WindowRect.x)}, {Mathf.RoundToInt(m_WindowRect.y)}");

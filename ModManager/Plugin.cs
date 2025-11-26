@@ -3,7 +3,6 @@ using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
 using SFKUILib;
-using SuperFantasyKingdom.TitleScreen;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,7 +10,6 @@ using UnityEngine;
 namespace ModManager
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
-    [BepInDependency("com.sfk.uilib")]
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
@@ -71,16 +69,15 @@ namespace ModManager
         {
             var overlay = UIOverlay.Create(
                 "ModsOverlay",
-                new Vector2(-400, 100),
+                new Vector2(-300, 0),
                 bgMode: OverlayBackgroundMode.PanelFixed,
-                bgColor: new Color(0f, 0f, 0f, 0.6f),
+                bgColor: new Color(0f, 0f, 0f, 0.7f),
                 panelSize: new Vector2(300, 400)
                 )
-                .AddHeader("Loaded Plugins");
+                .AddHeader("SFK UILib");
 
             foreach (var mod in loadedPlugins)
             {
-                //overlay.AddText(mod.Value.Metadata.Name, size: 16);
                 var t = UIText.Create(
                     mod.Value.Metadata.Name,
                     overlay.Menu.container.Rect,
@@ -94,11 +91,11 @@ namespace ModManager
 
         void Update()
         {
-            if (!triggered && TitleScreenManager.Instance.menu.activeSelf)
-            {
-                CreateModsOverlay();
-                triggered = true;
-            }
+            //if (!triggered && TitleScreenManager.Instance.menu.activeSelf)
+            //{
+            //    CreateModsOverlay();
+            //    triggered = true;
+            //}
 
         }
     }

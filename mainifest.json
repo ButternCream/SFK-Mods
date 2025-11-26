@@ -1,0 +1,9 @@
+{
+    "name": "SFK UILib",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/ButternCream/SFK-Mods",
+    "description": "UI Library to allow easy creation of various components",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2304"
+    ]
+}

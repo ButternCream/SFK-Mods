@@ -8,9 +8,8 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>SFKMod</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\SFKUILib\SFKUILib.csproj" />
+    <Folder Include="Patches\" />
   </ItemGroup>
   
 </Project>
