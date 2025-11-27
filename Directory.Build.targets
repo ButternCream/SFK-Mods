@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <!-- Deploy logic -->
-  <Target Name="Deploy" AfterTargets="Build">
+  <Target Name="Deploy" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <ItemGroup>
       <Files Include="$(TargetDir)\**\*.*" />
     </ItemGroup>
