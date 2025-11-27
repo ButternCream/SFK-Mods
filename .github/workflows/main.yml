@@ -6,7 +6,7 @@ on:
       project:
         description: "Path to .csproj or .sln to build"
         required: true
-        type: string
+        type: choice
         options:
           - DemolishAll/DemolishAll.csproj
           - SFKUILib/SFKUILib.csproj
