@@ -20,5 +20,15 @@ namespace DemolishAll
 
             _harmony.PatchAll();
         }
+
+        private void OnApplicationQuit()
+        {
+            _harmony.UnpatchSelf();
+        }
+
+        private void OnDestroy()
+        {
+            _harmony.UnpatchSelf();
+        }
     }
 }

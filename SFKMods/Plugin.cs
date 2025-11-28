@@ -21,6 +21,7 @@ namespace SFKMod
         private ConfigEntry<float> m_CfgWindowY;
         private ConfigEntry<float> m_CfgWindowW;
         private ConfigEntry<float> m_CfgWindowH;
+        public static float difficultyPercentage = 1000f;
 
         Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
 
@@ -105,10 +106,6 @@ namespace SFKMod
                 }
             }
 
-            if (GUILayout.Button("Hero Health"))
-            {
-                Instances.UnitManager.GetHero().m_CurrentBaseHealth = 99999f;
-            }
 
             GUILayout.Space(8);
             GUILayout.Label($"Window position: {Mathf.RoundToInt(m_WindowRect.x)}, {Mathf.RoundToInt(m_WindowRect.y)}");

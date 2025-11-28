@@ -88,5 +88,15 @@ namespace NewBuildingTest
                 WorldBuildingDetails();
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            _harmony.UnpatchSelf();
+        }
+
+        private void OnDestroy()
+        {
+            _harmony.UnpatchSelf();
+        }
     }
 }

@@ -6,14 +6,11 @@
   <PropertyGroup>
     <TargetFramework>net481</TargetFramework>
     <AssemblyName>SFKMod</AssemblyName>
-    <Product>A Bunch of SFK modding tests</Product>
+    <Product>Mod Tests</Product>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RootNamespace>SFKMod</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Patches\" />
-  </ItemGroup>
   
 </Project>

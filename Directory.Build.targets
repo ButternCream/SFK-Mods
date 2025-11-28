@@ -18,17 +18,12 @@
   <!-- Deploy logic (Debug only) -->
   <Target Name="Deploy" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <ItemGroup>
-      <Files Include="$(TargetDir)\**\*.*" />
+      <Files Include="$(TargetPath)" />
     </ItemGroup>
 
     <Copy
       SourceFiles="@(Files)"
-      DestinationFiles="@(Files -> '$(SuperFantasyKingdomData)\..\BepInEx\plugins\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" />
-
-    <ZipDirectory
-      SourceDirectory="$(MSBuildProjectDirectory)\$(OutputPath)"
-      DestinationFile="$(MSBuildProjectDirectory)\$(OutputPath)\..\$(AssemblyName)-$(Version).zip"
-      Overwrite="true" />
+      DestinationFolder="$(SuperFantasyKingdomData)\..\BepInEx\plugins\" />
   </Target>
 
   <!-- Thunderstore package (Release only) -->
@@ -46,7 +41,7 @@
 
       <!-- Staging + zip output -->
       <ThunderstoreStageDir>$(MSBuildProjectDirectory)\thunderstore\$(AssemblyName)</ThunderstoreStageDir>
-      <ThunderstoreZip>$(MSBuildProjectDirectory)\thunderstore\$(AssemblyName)-$(ThunderstoreVersion).zip</ThunderstoreZip>
+      <ThunderstoreZip>$(MSBuildProjectDirectory)\thunderstore\$(AssemblyName)-$(Version).zip</ThunderstoreZip>
     </PropertyGroup>
 
     <!-- Clean + recreate staging dir -->
@@ -63,7 +58,7 @@
     <!-- manifest.json directly from csproj -->
     <ItemGroup>
       <ManifestLines Include="{" />
-      <ManifestLines Include="  &quot;name&quot;: &quot;$(Product)&quot;," />
+      <ManifestLines Include="  &quot;name&quot;: &quot;$(AssemblyName)&quot;," />
       <ManifestLines Include="  &quot;version_number&quot;: &quot;$(Version)&quot;," />
       <ManifestLines Include="  &quot;website_url&quot;: &quot;$(ThunderstoreWebsiteUrl)&quot;," />
       <ManifestLines Include="  &quot;description&quot;: &quot;$(ThunderstoreDescription)&quot;," />

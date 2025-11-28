@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemolishAll", "DemolishAll\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewBuildingTest", "NewBuildingTest\NewBuildingTest.csproj", "{F43DF953-6666-4CBA-AFDD-9D1693B97B22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No Breaks", "No Breaks\No Breaks.csproj", "{BE23D229-D7E0-41FE-B755-0950FD940F78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F43DF953-6666-4CBA-AFDD-9D1693B97B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F43DF953-6666-4CBA-AFDD-9D1693B97B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F43DF953-6666-4CBA-AFDD-9D1693B97B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
