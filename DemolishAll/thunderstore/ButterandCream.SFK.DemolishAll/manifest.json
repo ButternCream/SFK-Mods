@@ -1,7 +1,0 @@
-﻿{
-"name": "DemolishAll",
-"version_number": "1.0.1",
-"website_url": "https://github.com/ButternCream/SFK-Mods",
-"description": "Ability to demolish any city building",
-"dependencies": ["BepInEx-BepInExPack-5.4.2304"]
-}
