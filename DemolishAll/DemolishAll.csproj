@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" PrivateAssets="all" />
@@ -6,9 +6,10 @@
   
   <PropertyGroup>
     <Thunderstore>true</Thunderstore>
+    <ThunderstoreDescription>Allows you to demolish any building at anytime with banishes (except the castle)</ThunderstoreDescription>
     <TargetFramework>net481</TargetFramework>
     <AssemblyName>ButterandCream.SFK.DemolishAll</AssemblyName>
-    <Product>Ability to demolish any city building</Product>
+    <Product>DemolishAll</Product>
     <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>

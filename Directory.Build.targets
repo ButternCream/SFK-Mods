@@ -43,11 +43,6 @@
     <PropertyGroup>
       <ThunderstoreWebsiteUrl Condition="'$(ThunderstoreWebsiteUrl)'==''">https://github.com/ButternCream/SFK-Mods</ThunderstoreWebsiteUrl>
       <ThunderstoreDependencies Condition="'$(ThunderstoreDependencies)'==''">["BepInEx-BepInExPack-5.4.2304"]</ThunderstoreDependencies>
-      <_ThunderstoreShortNameRaw>
-        $([System.Text.RegularExpressions.Regex]::Replace('$(AssemblyName)', '^.*\.', ''))
-      </_ThunderstoreShortNameRaw>
-
-      <ThunderstoreShortName>$(_ThunderstoreShortNameRaw.Trim())</ThunderstoreShortName>
 
       <!-- Staging + zip output -->
       <ThunderstoreStageDir>$(MSBuildProjectDirectory)\thunderstore\$(AssemblyName)</ThunderstoreStageDir>
@@ -68,10 +63,10 @@
     <!-- manifest.json directly from csproj -->
     <ItemGroup>
       <ManifestLines Include="{" />
-      <ManifestLines Include="  &quot;name&quot;: &quot;$(ThunderstoreShortName)&quot;," />
+      <ManifestLines Include="  &quot;name&quot;: &quot;$(Product)&quot;," />
       <ManifestLines Include="  &quot;version_number&quot;: &quot;$(Version)&quot;," />
       <ManifestLines Include="  &quot;website_url&quot;: &quot;$(ThunderstoreWebsiteUrl)&quot;," />
-      <ManifestLines Include="  &quot;description&quot;: &quot;$(Product)&quot;," />
+      <ManifestLines Include="  &quot;description&quot;: &quot;$(ThunderstoreDescription)&quot;," />
       <ManifestLines Include="  &quot;dependencies&quot;: $(ThunderstoreDependencies)" />
       <ManifestLines Include="}" />
     </ItemGroup>

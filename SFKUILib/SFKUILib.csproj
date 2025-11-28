@@ -4,17 +4,12 @@
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="README.md">
-      <SubType>Component</SubType>
-    </None>
-  </ItemGroup>
-
   <PropertyGroup>
     <Thunderstore>true</Thunderstore>
+    <ThunderstoreDescription>A UI Library to allow easy creation of various components</ThunderstoreDescription>
     <TargetFramework>net481</TargetFramework>
     <AssemblyName>ButterandCream.SFK.UILib</AssemblyName>
-    <Product>A UI library for SFK</Product>
+    <Product>SFK UILib</Product>
     <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
