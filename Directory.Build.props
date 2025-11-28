@@ -7,6 +7,7 @@
     </RestoreAdditionalProjectSources>
 
     <SuperFantasyKingdomData>Z:\SteamLibrary\steamapps\common\Super Fantasy Kingdom\Super Fantasy Kingdom_Data</SuperFantasyKingdomData>
+    <Thunderstore>false</Thunderstore>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>

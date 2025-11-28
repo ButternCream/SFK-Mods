@@ -8,15 +8,12 @@ using UnityEngine;
 
 namespace SFKMod
 {
-    [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
     {
 
         public bool m_AddBg = false;
         private bool m_Visible = false;
-        public const string PLUGIN_GUID = "com.sfk.testing";
-        public const string PLUGIN_NAME = "SFK Testing";
-        public const string PLUGIN_VERSION = "1.0.0";
         private Rect m_WindowRect = new(100, 100, 300, 200);
         internal static new ManualLogSource Logger;
         private ConfigEntry<KeyboardShortcut> m_ToggleKey;
@@ -25,7 +22,7 @@ namespace SFKMod
         private ConfigEntry<float> m_CfgWindowW;
         private ConfigEntry<float> m_CfgWindowH;
 
-        Harmony harmony = new Harmony(PLUGIN_GUID);
+        Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
 
         void Awake()
         {

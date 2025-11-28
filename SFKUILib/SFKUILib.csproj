@@ -1,17 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <SubType>Component</SubType>
+    </None>
+  </ItemGroup>
+
   <PropertyGroup>
+    <Thunderstore>true</Thunderstore>
     <TargetFramework>net481</TargetFramework>
-    <AssemblyName>SFKUILib</AssemblyName>
-    <Product>UI framework for SFK</Product>
-    <Version>1.0.0</Version>
+    <AssemblyName>ButterandCream.SFK.UILib</AssemblyName>
+    <Product>A UI library for SFK</Product>
+    <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <RestoreAdditionalProjectSources>
-      https://api.nuget.org/v3/index.json;
-      https://nuget.bepinex.dev/v3/index.json;
-      https://nuget.samboy.dev/v3/index.json
-    </RestoreAdditionalProjectSources>
     <RootNamespace>SFKUILib</RootNamespace>
   </PropertyGroup>
 

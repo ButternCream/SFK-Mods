@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" PrivateAssets="all" />
+  </ItemGroup>
+  
   <PropertyGroup>
+    <Thunderstore>true</Thunderstore>
     <TargetFramework>net481</TargetFramework>
-    <AssemblyName>DemolishAll</AssemblyName>
-    <Product>Ability to demolish any building</Product>
-    <Version>1.0.0</Version>
+    <AssemblyName>ButterandCream.SFK.DemolishAll</AssemblyName>
+    <Product>Ability to demolish any city building</Product>
+    <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RootNamespace>DemolishAll</RootNamespace>
