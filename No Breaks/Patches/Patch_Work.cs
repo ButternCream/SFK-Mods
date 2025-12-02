@@ -9,7 +9,12 @@ namespace No_Breaks.Patches
         static void Postfix(DaytimeManager __instance, ref bool __result)
         {
             // Balance it so they dont just keep working when you wait to enter tavern
-            __result = __instance.m_DaytimePhase != DaytimeManager.DaytimePhase.Night;
+            // Bossdays will wait on moonrise until chest opens
+            bool bossWork = __instance.m_DaytimePhase != DaytimeManager.DaytimePhase.Night
+                && __instance.m_DaytimePhase != DaytimeManager.DaytimePhase.Evening;
+
+
+            __result = __instance.IsBossDay() ? bossWork : __instance.m_DaytimePhase != DaytimeManager.DaytimePhase.Night;
         }
     }
 }

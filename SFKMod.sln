@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewBuildingTest", "NewBuild
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No Breaks", "No Breaks\No Breaks.csproj", "{BE23D229-D7E0-41FE-B755-0950FD940F78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingdomLevelDump", "KingdomLevelDump\KingdomLevelDump.csproj", "{DFCC8376-0208-4136-B71B-5E157BD784C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadCatalogFix", "LoadCatalogFix\LoadCatalogFix.csproj", "{ED91E835-FEB5-4477-A6FB-740E6588E671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE23D229-D7E0-41FE-B755-0950FD940F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFCC8376-0208-4136-B71B-5E157BD784C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCC8376-0208-4136-B71B-5E157BD784C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCC8376-0208-4136-B71B-5E157BD784C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCC8376-0208-4136-B71B-5E157BD784C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED91E835-FEB5-4477-A6FB-740E6588E671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED91E835-FEB5-4477-A6FB-740E6588E671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED91E835-FEB5-4477-A6FB-740E6588E671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED91E835-FEB5-4477-A6FB-740E6588E671}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

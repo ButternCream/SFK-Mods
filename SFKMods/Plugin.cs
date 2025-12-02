@@ -105,7 +105,10 @@ namespace SFKMod
                     return;
                 }
             }
-
+            if (GUILayout.Button("Test Alert"))
+            {
+                AlertManager.Instance.DisplayMessage("Hello World", "This is a test alert!");
+            }
 
             GUILayout.Space(8);
             GUILayout.Label($"Window position: {Mathf.RoundToInt(m_WindowRect.x)}, {Mathf.RoundToInt(m_WindowRect.y)}");

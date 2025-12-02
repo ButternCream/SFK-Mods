@@ -1,15 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Thunderstore>true</Thunderstore>
-    <ThunderstoreDescription>Make those pesky workers keep working.</ThunderstoreDescription>
     <TargetFramework>net481</TargetFramework>
-    <AssemblyName>No_Breaks</AssemblyName>
-    <Product>Workers never stop.</Product>
-    <Version>1.0.1</Version>
+    <AssemblyName>KingdomLevelDump</AssemblyName>
+    <Product>Dump unlocks</Product>
+    <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>No_Breaks</RootNamespace>
+    <RootNamespace>KingdomLevelDump</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
