@@ -37,7 +37,7 @@
          You can override here if you want. -->
     <PropertyGroup>
       <ThunderstoreWebsiteUrl Condition="'$(ThunderstoreWebsiteUrl)'==''">https://github.com/ButternCream/SFK-Mods</ThunderstoreWebsiteUrl>
-      <ThunderstoreDependencies Condition="'$(ThunderstoreDependencies)'==''">["BepInEx-BepInExPack-5.4.2304"]</ThunderstoreDependencies>
+      <ThunderstoreDependencies Condition="'$(ThunderstoreDependencies)'==''">["BepInEx-BepInExPack-5.4.2304", "BepInEx-HideManagerGameObject_Config-5.4.2304"]</ThunderstoreDependencies>
 
       <!-- Staging + zip output -->
       <ThunderstoreStageDir>$(MSBuildProjectDirectory)\thunderstore\$(AssemblyName)</ThunderstoreStageDir>
@@ -80,6 +80,10 @@
     <Copy SourceFiles="$(MSBuildProjectDirectory)\icon.png"
           DestinationFolder="$(ThunderstoreStageDir)"
           Condition="Exists('$(MSBuildProjectDirectory)\icon.png')" />
+    
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\CHANGELOG.md"
+          DestinationFolder="$(ThunderstoreStageDir)"
+          Condition="Exists('$(MSBuildProjectDirectory)\CHANGELOG.md')" />
 
     <!-- Zip staging folder -->
     <ZipDirectory

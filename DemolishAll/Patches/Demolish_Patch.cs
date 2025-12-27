@@ -7,9 +7,23 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace DemolishAll.Patches
 {
+
+    [HarmonyPatch]
+    public static class UIOverlayMessage_SetAccept_Patch
+    {
+        [HarmonyReversePatch]
+        [HarmonyPatch(typeof(UIOverlayMessage), "SetAccept",
+        new[] { typeof(ResourceAmount), typeof(UnityAction) })]
+        public static Button SetAcceptCost(UIOverlayMessage instance, ResourceAmount cost, UnityAction action)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     // We need to despawn workers for houses
     [HarmonyPatch(typeof(BuildingCity), "Demolish")]
     public static class Patch_HouseDemolish_DespawnWorkers
@@ -28,7 +42,7 @@ namespace DemolishAll.Patches
                 if (__instance == w.GetHome())
                 {
                     JobManager.Instance.UnregisterWorker(w);
-                    Object.Destroy(w.gameObject);
+                    UnityEngine.Object.Destroy(w.gameObject);
                 }
             }
         }
@@ -39,18 +53,26 @@ namespace DemolishAll.Patches
     {
         static bool Prefix(UIBuildingOverlayElementDemolish __instance)
         {
-            OverlayManager.Instance.CloseOverlay(false);
-            var msg = OverlayManager.Instance.OverlayMessage(true);
+            var overlayManager = OverlayManager.Instance;
+            if (overlayManager == null || __instance == null)
+            {
+                return false;
+            }
+            overlayManager.CloseOverlay(false);
+            var msg = overlayManager.OverlayMessage(true);
 
-            msg.SetCancel("", () => OverlayManager.Instance.Cancel(true));
+            msg.SetCancel("", () => overlayManager.Cancel(true));
 
-            string text = "Demolish this building?";
-            var loc = __instance.stringMessage;
-            if (loc != null) text = loc.GetLocalizedString();
+            string text = __instance.stringMessage?.GetLocalizedString()
+                  ?? "Demolish this building?";
 
             msg.SetMessage(text);
-            msg.SetAccept(new ResourceAmount(ResourceType.Banish, 1),
-                          new UnityAction(__instance.Callback));
+            UnityAction action = () =>
+            {
+                if (__instance != null)
+                    __instance.Callback();
+            };
+            UIOverlayMessage_SetAccept_Patch.SetAcceptCost(msg, new ResourceAmount(ResourceType.Banish, 1), action);
 
             return false; // skip original Select
         }
@@ -59,15 +81,14 @@ namespace DemolishAll.Patches
     [HarmonyPatch(typeof(UIBuildingOverlay), nameof(UIBuildingOverlay.Open))]
     public static class Patch_Demolish
     {
-        private static UIBuildingOverlayElementDemolish _element;
+        private static bool _moveScheduled = false;
         private static float Y_OFFSET = 50f;
         static void Prefix(UIBuildingOverlay __instance, bool force)
         {
+            UIBuildingOverlayElementDemolish _element = null;
             var building = __instance.building;
             // Only add to city buildings
             if (building == null || building is not BuildingCity || building is BuildingCastle) return;
-
-            Plugin.Logger.LogInfo("Demolish Prefix");
 
             List<UIBuildingOverlayElement> buttons = __instance.buttons;
             if (buttons == null)
@@ -79,28 +100,27 @@ namespace DemolishAll.Patches
             if (buttons.Any(b => b is UIBuildingOverlayElementDemolish))
                 return;
 
-            if (_element == null)
-            {
-                foreach (var overlay in Object.FindObjectsOfType<UIBuildingOverlay>(true))
-                {
-                    var list = overlay.buttons;
-                    if (list == null) continue;
 
-                    _element = list.FirstOrDefault(e => e is UIBuildingOverlayElementDemolish)
-                                    as UIBuildingOverlayElementDemolish;
-                    if (_element != null) break;
-                }
+            foreach (var overlay in UnityEngine.Object.FindObjectsOfType<UIBuildingOverlay>(true))
+            {
+                var list = overlay.buttons;
+                if (list == null) continue;
+
+                _element = list.FirstOrDefault(e => e is UIBuildingOverlayElementDemolish)
+                                as UIBuildingOverlayElementDemolish;
+                if (_element != null) break;
             }
+
 
             if (_element != null)
             {
-                Plugin.Logger.LogInfo("Adding Demolish (Cloned)");
+                Plugin.Logger.LogInfo("Found existing demolish");
                 var clone = (UIBuildingOverlayElementDemolish)_element.Clone();
                 buttons.Add(clone);
             }
             else
             {
-                Plugin.Logger.LogInfo("No Element Demolish");
+                Plugin.Logger.LogInfo("No demolish element found, creating a new one.");
                 buttons.Add(new UIBuildingOverlayElementDemolish());
             }
 
@@ -108,12 +128,15 @@ namespace DemolishAll.Patches
 
         static void Postfix(UIBuildingOverlay __instance, bool force)
         {
+            if (_moveScheduled) return;
+            _moveScheduled = true;
             OverlayManager.Instance.StartCoroutine(MoveNextFrame());
         }
 
         private static IEnumerator MoveNextFrame()
         {
             yield return null;
+            _moveScheduled = false;
 
             // Find the specific parent container you showed
             var selection = GameObject.Find(
@@ -143,8 +166,6 @@ namespace DemolishAll.Patches
                 var p = rt.anchoredPosition;
                 p.y -= Y_OFFSET; // move down
                 rt.anchoredPosition = p;
-
-                Plugin.Logger.LogInfo($"Moved {demolishRoot.name} down by {Y_OFFSET}");
             }
             else
             {

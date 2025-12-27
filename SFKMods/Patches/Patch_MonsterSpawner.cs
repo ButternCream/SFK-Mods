@@ -8,10 +8,10 @@ namespace SFKMod.Patches
     {
         static void Prefix(ref float by)
         {
-            float percentage = 1000f;
-            by = percentage / 100;
+            //float percentage = 1000f;
+            //by = percentage / 100;
 
-            Plugin.Logger.LogInfo($"Increased difficulty by {percentage}%");
+            // Plugin.Logger.LogInfo($"Increased difficulty by {percentage}%");
         }
     }
 }

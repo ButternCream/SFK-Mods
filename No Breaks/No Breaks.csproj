@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Thunderstore>true</Thunderstore>
@@ -6,7 +6,7 @@
     <TargetFramework>net481</TargetFramework>
     <AssemblyName>No_Breaks</AssemblyName>
     <Product>Workers never stop.</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RootNamespace>No_Breaks</RootNamespace>

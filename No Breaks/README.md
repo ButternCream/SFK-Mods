@@ -3,3 +3,16 @@
 # No Breaks
 
 Workers will work into the evening and moonrise.
+
+# 🔧 Installation
+## Manual Installation
+1. Install BepInEx for Super Fantasy Kingdom.
+2. Download the latest release.
+3. Extract the `.dll` into: `<SuperFantasyKingdom>/BepInEx/plugins/`
+4. Launch the game — the mod loads automatically.
+
+## Thunderstore Mod Manager
+1. Open Thunderstore Mod Manager.
+2. Select Super Fantasy Kingdom.
+3. Download the mod `No Breaks`.
+4. Install and start the game.
