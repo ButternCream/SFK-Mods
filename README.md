@@ -5,7 +5,6 @@
 Putting a collection of mods and findings here that people can reference and use.
 
 ### Current Stuff
-- Shard Spawning API
-- Semi Working Item Spawning API
-- Some UI Helpers
-- Some Asset Stuff
+
+See my published mods here https://thunderstore.io/c/super-fantasy-kingdom/p/sfkbutter/
+
